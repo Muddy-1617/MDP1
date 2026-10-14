@@ -856,6 +856,7 @@ const db = window.supabase.createClient(
     SUPABASE_PUBLISHABLE_KEY
 );
 
+
 document.getElementById("bookingForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
@@ -887,19 +888,19 @@ document.getElementById("bookingForm").addEventListener("submit", async function
             return;
         }
 
+        message.classList.remove("error");
         message.textContent =
             "Booking request submitted! Your appointment is pending confirmation.";
 
         this.reset();
 
     } catch (error) {
-        console.error(error);
+        console.error("Connection error:", error);
         message.classList.add("error");
         message.textContent =
             "Connection error. Please try again later.";
     }
 });
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
