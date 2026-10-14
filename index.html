@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToyoHondu Carwash | Premium Car Care</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101010;
+            color: white;
+            line-height: 1.6;
+        }
+
+        :root {
+            --red: #e21b2d;
+            --dark: #101010;
+            --grey: #1c1c1c;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        button, .button {
+            cursor: pointer;
+        }
+
+        .navbar {
+            background: #080808;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--red);
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--red);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 22px;
+            background: var(--red);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            background: #b80f20;
+            transform: translateY(-2px);
+        }
+
+        .outline-button {
+            background: transparent;
+            border: 1px solid white;
+            margin-left: 8px;
+        }
+
+        .hero {
+            min-height: 570px;
+            padding: 100px 8%;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(90deg, rgba(0,0,0,.94),
+                rgba(0,0,0,.55), rgba(0,0,0,.2)),
+                url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1800&q=85")
+                center/cover;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .eyebrow {
+            color: var(--red);
+            font-weight: bold;
+            letter-spacing: 3px;
+            font-size: 13px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 7vw, 72px);
+            line-height: 1.05;
+            margin: 18px 0;
+        }
+
+        h1 span, .red {
+            color: var(--red);
+        }
+
+        .hero p {
+            color: #ddd;
+            font-size: 18px;
+            margin-bottom: 28px;
+            max-width: 550px;
+        }
+
+        .trust-strip {
+            background: var(--red);
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-around;
+            gap: 18px;
+            flex-wrap: wrap;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        section {
+            padding: 80px 8%;
+            scroll-margin-top: 80px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            margin: 8px 0;
+        }
+
+        .section-heading p {
+            color: #bbb;
+        }
+
+        .about-grid, .service-grid, .gallery-grid,
+        .review-grid, .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 330px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .about-copy {
+            grid-column: span 2;
+            align-self: center;
+        }
+
+        .about-copy h3 {
+            font-size: 27px;
+            margin-bottom: 14px;
+        }
+
+        .about-copy p {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .feature {
+            margin-top: 14px;
+        }
+
+        .feature strong {
+            color: var(--red);
+        }
+
+        .service-card, .review-card {
+            background: var(--grey);
+            padding: 28px;
+            border-radius: 10px;
+            border-bottom: 3px solid var(--red);
+        }
+
+        .service-icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .service-card h3 {
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .service-card p, .review-card p {
+            color: #c5c5c5;
+            margin-bottom: 16px;
+        }
+
+        .price {
+            font-size: 27px;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        .small {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .gallery-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px;
+            background: var(--grey);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            display: block;
+            transition: transform .3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item p {
+            padding: 14px;
+            font-weight: bold;
+        }
+
+        .offer {
+            background: linear-gradient(110deg, #b80f20, #e21b2d);
+            text-align: center;
+        }
+
+        .offer h2 {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .offer p {
+            margin-bottom: 22px;
+        }
+
+        .offer .button {
+            background: white;
+            color: #111;
+        }
+
+        .review-card .stars {
+            color: #ffca28;
+            margin-bottom: 12px;
+        }
+
+        .review-card h4 {
+            margin-top: 15px;
+        }
+
+        .booking-grid {
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+        }
+
+        .info-panel {
+            background: #191919;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .info-panel h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-panel p {
+            color: #ccc;
+            margin: 12px 0;
+        }
+
+        .form-panel {
+            background: #1c1c1c;
+            padding: 30px;
+            border-radius: 10px;
+            border-top: 3px solid var(--red);
+        }
+
+        .form-panel h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #101010;
+            color: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid var(--red);
+        }
+
+        .full-button {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .notice {
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        .signup-section {
+            background:
+                linear-gradient(rgba(0,0,0,.91), rgba(0,0,0,.95)),
+                url("https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=1500&q=80")
+                center/cover;
+        }
+
+        .signup-wrap {
+            max-width: 520px;
+            margin: auto;
+        }
+
+        .signup-wrap > p {
+            color: #bbb;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .signup-wrap .section-heading {
+            margin-bottom: 25px;
+        }
+
+        .form-message {
+            display: none;
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 15px;
+            background: #193b25;
+            color: #b9ffd0;
+            overflow-wrap: anywhere;
+        }
+
+        .form-message.error {
+            background: #4a1717;
+            color: #ffd0d0;
+        }
+
+        footer {
+            background: #050505;
+            padding: 35px 8%;
+            text-align: center;
+            color: #aaa;
+        }
+
+        footer .logo {
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        footer p {
+            margin: 8px 0;
+        }
+
+        @media (max-width: 800px) {
+            .navbar {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .about-grid, .service-grid, .gallery-grid,
+            .review-grid, .booking-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-copy {
+                grid-column: auto;
+            }
+
+            .hero {
+                min-height: 480px;
+                padding: 75px 7%;
+            }
+
+            section {
+                padding: 60px 6%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="navbar">
+        <a class="logo" href="#home">TOYO<span>HONDU</span></a>
+
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#booking">Book a Wash</a>
+            <a href="#signup" class="button">Create Account</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="eyebrow">YOUR CAR DESERVES THE BEST</div>
+
+                <h1>DRIVE CLEAN.<br><span>SHINE LOUD.</span></h1>
+
+                <p>
+                    Welcome to ToyoHondu Carwash, your destination for
+                    a spotless finish, professional care and a fresh
+                    driving experience. We treat every vehicle like our own.
+                </p>
+
+                <a href="#booking" class="button">Book Your Wash</a>
+                <a href="#services" class="button outline-button">
+                    Explore Services
+                </a>
+            </div>
+        </section>
+
+        <div class="trust-strip">
+            <div>✦ Premium Products</div>
+            <div>✦ Careful Cleaning</div>
+            <div>✦ Modern Equipment</div>
+            <div>✦ Customer First</div>
+        </div>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="section-heading">
+                <div class="eyebrow">WHO WE ARE</div>
+                <h2>More Than Just a <span class="red">Car Wash</span></h2>
+                <p>Bringing the shine back to every journey.</p>
+            </div>
+
+            <div class="about-grid">
+                <img class="about-image"
+                    src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=900&q=85"
+                    alt="Vehicle receiving professional car care"
+                    loading="lazy">
+
+                <div class="about-copy">
+                    <h3>Where Quality Meets Convenience</h3>
+
+                    <p>
+                        At ToyoHondu Carwash, we believe a clean car
+                        makes every drive feel better. Our sample
+                        business combines attentive service, modern
+                        washing equipment and quality cleaning products.
+                    </p>
+
+                    <p>
+                        From a quick exterior wash to a detailed interior
+                        clean, our goal is to leave your vehicle looking
+                        refreshed without making your day complicated.
+                    </p>
+
+                    <div class="feature">
+                        <strong>01.</strong> Attention to every detail
+                    </div>
+                    <div class="feature">
+                        <strong>02.</strong> Services for different budgets
+                    </div>
+                    <div class="feature">
+                        <strong>03.</strong> A clean, comfortable experience
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services" style="background:#151515">
+            <div class="section-heading">
+                <div class="eyebrow">OUR SERVICES</div>
+                <h2>Choose Your <span class="red">Perfect Shine</span></h2>
+                <p>Sample service packages and prices in Canadian dollars.</p>
+            </div>
+
+            <div class="service-grid">
+                <article class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Express Wash</h3>
+                    <p>
+                        A convenient exterior wash to remove everyday
+                        dirt and freshen up your vehicle.
+                    </p>
+                    <div class="price">$15</div>
+                    <p class="small">Illustrative price per vehicle</p>
+                    <button class="button choose-service"
+                        data-service="Express Wash">
+                        Choose Package
+                    </button>
+                </article>
+
+                <article class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3>Premium Wash</h3>
+                    <p>
+                        Exterior cleaning, wheel care and a finishing
+                        touch for a glossy, refreshed appearance.
+                    </p>
+                    <div class="price">$30</div>
+                    <p class="small">Illustrative price per vehicle</p>
+                    <button class="button choose-service"
+                        data-service="Premium Wash">
+                        Choose Package
+                    </button>
+                </article>
+
+                <article class="service-card">
+                    <div class="service-icon">💎</div>
+                    <h3>Full Detail</h3>
+                    <p>
+                        A more thorough interior and exterior clean
+                        for drivers who want extra attention.
+                    </p>
+                    <div class="price">$80+</div>
+                    <p class="small">Illustrative starting price</p>
+                    <button class="button choose-service"
+                        data-service="Full Detail">
+                        Choose Package
+                    </button>
+                </article>
+            </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section id="gallery">
+            <div class="section-heading">
+                <div class="eyebrow">THE TOYOHONDU EXPERIENCE</div>
+                <h2>Clean Cars. <span class="red">Fresh Starts.</span></h2>
+                <p>Explore the style of our premium car-care concept.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=85"
+                        alt="Modern car"
+                        loading="lazy">
+                    <p>Premium Vehicle Care</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=85"
+                        alt="Sports car"
+                        loading="lazy">
+                    <p>Every Detail Matters</p>
+                </div>
+
+                <div class="gallery-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=800&q=85"
+                        alt="Professional vehicle cleaning"
+                        loading="lazy">
+                    <p>Modern Cleaning Experience</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROMOTION -->
+        <section class="offer">
+            <h2>YOUR NEXT WASH STARTS HERE</h2>
+            <p>
+                Give your vehicle the care it deserves.
+                Choose a package and request your preferred time.
+            </p>
+            <a href="#booking" class="button">Book an Appointment</a>
+        </section>
+
+        <!-- REVIEWS -->
+        <section>
+            <div class="section-heading">
+                <div class="eyebrow">THE CUSTOMER EXPERIENCE</div>
+                <h2>Why Drivers Choose <span class="red">Us</span></h2>
+                <p>A few example testimonials for this website demo.</p>
+            </div>
+
+            <div class="review-grid">
+                <article class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>
+                        "The kind of clean-car experience that makes
+                        you want to take the long way home."
+                    </p>
+                    <h4>Alex M.</h4>
+                    <span class="small">Sample testimonial</span>
+                </article>
+
+                <article class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>
+                        "A simple booking experience and a fresh,
+                        polished look. Exactly the concept I want."
+                    </p>
+                    <h4>Sarah K.</h4>
+                    <span class="small">Sample testimonial</span>
+                </article>
+
+                <article class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>
+                        "Convenient service options and a focus
+                        on the little details."
+                    </p>
+                    <h4>Daniel R.</h4>
+                    <span class="small">Sample testimonial</span>
+                </article>
+            </div>
+        </section>
+
+        <!-- BOOKING -->
+        <section id="booking" style="background:#151515">
+            <div class="section-heading">
+                <div class="eyebrow">LET'S GET YOU CLEAN</div>
+                <h2>Book Your <span class="red">Wash</span></h2>
+                <p>Complete this demo form to try the booking interface.</p>
+            </div>
+
+            <div class="booking-grid">
+                <div class="info-panel">
+                    <h3>Your Car. Your Choice.</h3>
+                    <p>
+                        🚘 <strong>Flexible packages</strong><br>
+                        Pick a service that fits your needs.
+                    </p>
+                    <p>
+                        🧽 <strong>Careful cleaning</strong><br>
+                        The goal is a fresh and comfortable vehicle.
+                    </p>
+                    <p>
+                        📅 <strong>Appointment requests</strong><br>
+                        Select your preferred date and time.
+                    </p>
+                    <p class="small">
+                        Demo business information only.
+                        No real appointment is created.
+                    </p>
+                </div>
+
+                <form class="form-panel" id="bookingForm">
+                    <h3>Request an Appointment</h3>
+
+                    <div class="form-group">
+                        <label for="bookName">Full Name</label>
+                        <input id="bookName" name="name"
+                            type="text" required maxlength="100"
+                            placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookEmail">Email Address</label>
+                        <input id="bookEmail" name="email"
+                            type="email" required
+                            placeholder="you@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookService">Choose a Service</label>
+                        <select id="bookService" name="service" required>
+                            <option value="">Select a package</option>
+                            <option>Express Wash</option>
+                            <option>Premium Wash</option>
+                            <option>Full Detail</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookDate">Preferred Date</label>
+                        <input id="bookDate" name="date"
+                            type="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookTime">Preferred Time</label>
+                        <select id="bookTime" name="time" required>
+                            <option value="">Choose a time</option>
+                            <option>9:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM</option>
+                            <option>2:00 PM</option>
+                            <option>3:00 PM</option>
+                            <option>4:00 PM</option>
+                        </select>
+                    </div>
+
+                    <button class="button full-button" type="submit">
+                        Request Booking
+                    </button>
+
+                    <div id="bookingMessage"
+                        class="form-message" role="status"></div>
+
+                    <p class="notice">
+                        Demo only: this form does not send or save
+                        a real appointment.
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <!-- SIGNUP AT THE END -->
+        <section id="signup" class="signup-section">
+            <div class="signup-wrap">
+                <div class="section-heading">
+                    <div class="eyebrow">JOIN THE TOYOHONDU FAMILY</div>
+                    <h2>Create Your <span class="red">Account</span></h2>
+                    <p>
+                        Sign up for this sample website and try
+                        the account form.
+                    </p>
+                </div>
+
+                <form class="form-panel" id="signupForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input id="fullName" name="fullName"
+                            type="text" required maxlength="100"
+                            autocomplete="name"
+                            placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <input id="signupEmail" name="email"
+                            type="email" required maxlength="254"
+                            autocomplete="email"
+                            placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPhone">Phone Number</label>
+                        <input id="signupPhone" name="phone"
+                            type="tel" required maxlength="25"
+                            autocomplete="tel"
+                            placeholder="+1 416 555 0123">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">Create Password</label>
+                        <input id="signupPassword" name="password"
+                            type="password" required minlength="8"
+                            maxlength="128"
+                            autocomplete="new-password"
+                            placeholder="At least 8 characters">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input id="confirmPassword"
+                            name="confirmPassword"
+                            type="password" required minlength="8"
+                            maxlength="128"
+                            autocomplete="new-password"
+                            placeholder="Enter your password again">
+                    </div>
+
+                    <button class="button full-button" type="submit">
+                        Create My Account
+                    </button>
+
+                    <div id="signupMessage"
+                        class="form-message" role="status"></div>
+
+                    <p class="notice">
+                        This is a front-end demo. It does not create
+                        a real account, send verification codes,
+                        or save your password.
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="logo">TOYO<span class="red">HONDU</span> CARWASH</div>
+        <p>Driven by care. Defined by shine.</p>
+        <p>Sample business website — fictional details and prices.</p>
+        <p>&copy; <span id="year"></span> ToyoHondu Carwash</p>
+    </footer>
+
+    
+<script>
+const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";
+const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+
+const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+document.getElementById("bookingForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const message = document.getElementById("bookingMessage");
+
+    const booking = {
+        customer_name: document.getElementById("bookName").value.trim(),
+        customer_email: document.getElementById("bookEmail").value.trim(),
+        service: document.getElementById("bookService").value,
+        booking_date: document.getElementById("bookDate").value,
+        booking_time: document.getElementById("bookTime").value,
+        status: "pending"
+    };
+
+    message.style.display = "block";
+    message.classList.remove("error");
+    message.textContent = "Submitting your booking...";
+
+    try {
+        const { error } = await db
+            .from("bookings")
+            .insert(booking);
+
+        if (error) {
+            console.error("Booking error:", error);
+            message.classList.add("error");
+            message.textContent =
+                "Booking failed. Please check your details and try again.";
+            return;
+        }
+
+        message.textContent =
+            "Booking request submitted! Your appointment is pending confirmation.";
+
+        this.reset();
+
+    } catch (error) {
+        console.error(error);
+        message.classList.add("error");
+        message.textContent =
+            "Connection error. Please try again later.";
+    }
+});
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</body>
+</html>
