@@ -10,77 +10,82 @@
     <!-- Load Supabase BEFORE using it -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script>
-        document.getElementById("year").textContent =
-            new Date().getFullYear();
+   
+<script>
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
 
-        // Replace these two placeholders with your real values.
-        const SUPABASE_URL = "https://hkhwzpewnkxjaojmuyet.supabase.com";
-        const SUPABASE_PUBLISHABLE_KEY = "b_publishable_4zo6UL8_xWvHZw1Em4Mqnw_bM_3924T";
+    const SUPABASE_URL =
+        "PASTE_YOUR_EXACT_PROJECT_URL_HERE";
 
-        const db = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
-        );
+    const SUPABASE_PUBLISHABLE_KEY =
+        "PASTE_YOUR_EXACT_PUBLISHABLE_KEY_HERE";
 
-        // BOOKING FORM
-        document.getElementById("bookingForm").addEventListener(
-            "submit",
-            async function (event) {
-                event.preventDefault();
+    const db = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
-                const form = this;
-                const message =
-                    document.getElementById("bookingMessage");
+    // BOOKING FORM
+    document.getElementById("bookingForm").addEventListener(
+        "submit",
+        async function (event) {
+            event.preventDefault();
 
-                const booking = {
-                    customer_name:
-                        document.getElementById("bookName").value.trim(),
-                    customer_email:
-                        document.getElementById("bookEmail").value.trim(),
-                    service:
-                        document.getElementById("bookService").value,
-                    booking_date:
-                        document.getElementById("bookDate").value,
-                    booking_time:
-                        document.getElementById("bookTime").value
+            const form = this;
+            const message =
+                document.getElementById("bookingMessage");
 
-                    // The database sets status to "pending" automatically.
-                };
+            const booking = {
+                customer_name:
+                    document.getElementById("bookName").value.trim(),
 
-                message.style.display = "block";
-                message.classList.remove("error");
-                message.textContent = "Submitting your booking...";
+                customer_email:
+                    document.getElementById("bookEmail").value.trim(),
 
-                try {
-                    const { error } = await db
-                        .from("bookings")
-                        .insert(booking);
+                service:
+                    document.getElementById("bookService").value,
 
-                    if (error) {
-                        console.error("Booking error:", error);
-                        message.classList.add("error");
-                        message.textContent =
-                            "Booking failed. Please try again.";
-                        return;
-                    }
+                booking_date:
+                    document.getElementById("bookDate").value,
 
-                    message.classList.remove("error");
-                    message.textContent =
-                        "Booking request submitted successfully! " +
-                        "Your appointment is pending confirmation.";
+                booking_time:
+                    document.getElementById("bookTime").value || null
+            };
 
-                    form.reset();
+            message.style.display = "block";
+            message.classList.remove("error");
+            message.textContent = "Submitting your booking...";
 
-                } catch (error) {
-                    console.error("Connection error:", error);
+            try {
+                const { error } = await db
+                    .from("bookings")
+                    .insert(booking);
+
+                if (error) {
+                    console.error("Booking error:", error);
                     message.classList.add("error");
                     message.textContent =
-                        "Connection error. Please try again later.";
+                        "Booking failed: " + error.message;
+                    return;
                 }
+
+                message.textContent =
+                    "Booking request submitted successfully! " +
+                    "Your appointment is pending confirmation.";
+
+                form.reset();
+
+            } catch (error) {
+                console.error("Connection error:", error);
+                message.classList.add("error");
+                message.textContent =
+                    "Connection error. Please try again later.";
             }
-        );
-    </script>
+        }
+    );
+</script>
+
 
 </body>
 </html>
