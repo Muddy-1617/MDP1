@@ -115,9 +115,11 @@ Deno.serve(async (req: Request) => {
     year: "numeric", month: "long", day: "numeric", timeZone: "America/Toronto",
   });
   const readableTime = time
-    ? new Date(`2000-01-01T${time}:00`).toLocaleTimeString("en-CA", {
-        hour: "numeric", minute: "2-digit", timeZone: "America/Toronto",
-      })
+    ? (() => {
+        const [hourText, minuteText] = time.split(":");
+        const hour = Number(hourText);
+        return `${hour % 12 || 12}:${minuteText} ${hour >= 12 ? "PM" : "AM"}`;
+      })()
     : "No preference requested";
   const vehicle = [make, model].filter(Boolean).join(" ") || "Not provided";
   const reference = String(booking.id);
