@@ -1,92 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131b">
+  <meta name="description" content="ToyoHondu Carwash — book a hand wash, interior clean, or full detail.">
+  <title>ToyoHondu Carwash | A Cleaner Kind of Drive</title>
+  <style>
+    :root{--bg:#0d1017;--panel:#151a24;--panel2:#1b2230;--text:#f5f7fb;--muted:#aeb7c7;--red:#ff4b4b;--red2:#e6323e;--line:rgba(255,255,255,.11);--green:#36c98f;--radius:20px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+    button,a,select{ -webkit-tap-highlight-color:transparent}
+    .container{width:min(1120px,calc(100% - 40px));margin-inline:auto}
+    .topbar{position:sticky;top:0;z-index:10;background:rgba(13,16,23,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .logo{font-weight:900;letter-spacing:.045em;font-size:1.05rem;white-space:nowrap}
+    .logo .red{color:var(--red)}
+    .navlinks{display:flex;align-items:center;gap:26px;color:var(--muted);font-size:.94rem}
+    .navlinks a:hover,.navlinks a:focus-visible{color:white}
+    .btn{display:inline-flex;justify-content:center;align-items:center;gap:9px;border:0;border-radius:999px;padding:13px 20px;font-weight:800;cursor:pointer;transition:transform .18s,background .18s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--red);color:white}
+    .btn-primary:hover{background:var(--red2)}
+    .btn-outline{border:1px solid var(--line);color:white;background:transparent}
+    .hero{padding:84px 0 72px;overflow:hidden;position:relative;background:radial-gradient(ellipse at 80% 20%,rgba(255,75,75,.16),transparent 36%),linear-gradient(145deg,#111722,#0d1017 65%)}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:46px}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#ffb2b2;text-transform:uppercase;letter-spacing:.15em;font-size:.75rem;font-weight:900;margin-bottom:18px}
+    .eyebrow:before{content:"";width:26px;height:2px;background:var(--red)}
+    h1{font-size:clamp(2.8rem,6vw,5.35rem);line-height:.99;letter-spacing:-.065em;max-width:700px}
+    h1 span{color:var(--red)}
+    .hero-copy{color:var(--muted);font-size:1.1rem;max-width:560px;margin:24px 0 28px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+    .hero-note{margin-top:26px;color:var(--muted);font-size:.88rem}
+    .hero-visual{min-height:330px;border-radius:28px;border:1px solid var(--line);position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 70%,rgba(255,75,75,.22),transparent 48%),linear-gradient(140deg,#202938,#10141d)}
+    .hero-visual:before,.hero-visual:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:50%;width:360px;height:360px}
+    .hero-visual:after{width:250px;height:250px}
+    .car-icon{font-size:clamp(7rem,15vw,12rem);filter:drop-shadow(0 22px 25px rgba(0,0,0,.45));z-index:1}
+    .visual-label{position:absolute;left:22px;bottom:20px;font-weight:800;font-size:.9rem;z-index:2}
+    .visual-label small{display:block;color:var(--muted);font-weight:500}
+    .trust-row{border-block:1px solid var(--line);background:#11151e}
+    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);padding:22px 0;gap:20px}
+    .trust-item{display:flex;gap:12px;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem}
+    .trust-item strong{display:block;color:white;font-size:.96rem}
+    .trust-icon{font-size:1.35rem}
+    section{padding:82px 0}
+    .section-head{max-width:650px;margin-bottom:34px}
+    .kicker{color:var(--red);font-size:.76rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase}
+    h2{font-size:clamp(2rem,4vw,3.25rem);line-height:1.08;letter-spacing:-.045em;margin-top:10px}
+    .section-head p{color:var(--muted);margin-top:14px}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .service-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;align-items:flex-start;min-height:280px}
+    .service-symbol{height:52px;width:52px;display:grid;place-items:center;border-radius:15px;background:rgba(255,75,75,.13);font-size:1.55rem;margin-bottom:20px}
+    .service-card h3{font-size:1.2rem;margin-bottom:7px}
+    .service-card p{color:var(--muted);font-size:.93rem;flex:1}
+    .price{font-size:1.45rem;font-weight:900;margin:18px 0}
+    .price small{font-size:.78rem;font-weight:500;color:var(--muted)}
+    .text-link{color:#ff8b8b;font-weight:800}
+    .text-link:hover{text-decoration:underline}
+    .about{background:#11151e}
+    .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;align-items:center}
+    .about-art{min-height:310px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(255,75,75,.15),transparent),var(--panel);border:1px solid var(--line);display:grid;place-items:center;font-size:7rem}
+    .about-copy p{color:var(--muted);margin-top:16px}
+    .feature-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+    .feature-list li:before{content:"✓";color:var(--green);font-weight:900;margin-right:9px}
+    .booking-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:38px;align-items:start}
+    .booking-aside{background:linear-gradient(150deg,#202735,#151a24);border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:sticky;top:100px}
+    .booking-aside p{color:var(--muted);margin-top:12px}
+    .contact-line{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+    .form-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:30px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .field{display:flex;flex-direction:column;gap:7px}
+    .field.full{grid-column:1/-1}
+    label{font-size:.87rem;font-weight:750}
+    input,select,textarea{width:100%;border:1px solid #343c4c;border-radius:11px;padding:12px 13px;color:var(--text);background:#0f131b;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,75,75,.13)}
+    input::placeholder,textarea::placeholder{color:#788294}
+    textarea{resize:vertical;min-height:100px}
+    .form-help{font-size:.8rem;color:var(--muted);margin:12px 0 18px}
+    .form-message{display:none;margin-bottom:16px;padding:13px 15px;border-radius:12px;background:rgba(54,201,143,.12);border:1px solid rgba(54,201,143,.35);color:#a5f3d1;font-size:.9rem;overflow-wrap:anywhere}
+    .form-message.error{background:rgba(255,75,75,.1);border-color:rgba(255,75,75,.35);color:#ffb5b5}
+    .btn:disabled{opacity:.65;cursor:wait;transform:none}
+    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+    summary{font-weight:800;cursor:pointer}
+    details p{color:var(--muted);margin-top:10px;font-size:.93rem}
+    footer{padding:34px 0;border-top:1px solid var(--line);background:#090b10}
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
+    footer p{color:var(--muted);font-size:.82rem}
+    .footer-tagline{margin-top:5px}
+    @media(max-width:850px){.hero-grid,.about-grid,.booking-wrap{grid-template-columns:1fr}.hero{padding-top:60px}.hero-visual{min-height:260px}.services-grid{grid-template-columns:1fr 1fr}.booking-aside{position:static}.about-art{min-height:220px}}
+    @media(max-width:600px){.container{width:min(100% - 28px,1120px)}.nav{min-height:68px;flex-wrap:wrap;padding:12px 0;gap:12px}.navlinks{order:3;width:100%;justify-content:space-between;gap:10px;font-size:.86rem}.nav>.btn{padding:10px 14px;font-size:.85rem}.hero{padding:48px 0}.hero-grid{gap:30px}.hero-copy{font-size:1rem}.trust-grid{grid-template-columns:1fr;gap:14px}.trust-item{justify-content:flex-start}.services-grid,.faq-grid{grid-template-columns:1fr}section{padding:62px 0}.form-card{padding:20px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.feature-list{grid-template-columns:1fr}.footer-inner{align-items:flex-start;flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="container nav" aria-label="Main navigation">
+      <a class="logo" href="#home" aria-label="ToyoHondu Carwash home">TOYO<span class="red">HONDU</span> CARWASH</a>
+      <div class="navlinks">
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#booking">Book a wash</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a class="btn btn-primary" href="#booking">Book now <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="logo">TOYO<span class="red">HONDU</span> CARWASH</div>
-        <p>Driven by care. Defined by shine.</p>
-        <p>Sample business website — fictional details and prices.</p>
-        <p>&copy; <span id="year"></span> ToyoHondu Carwash</p>
-    </footer>
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Care in every detail</div>
+          <h1>A cleaner car.<br>A <span>better drive.</span></h1>
+          <p class="hero-copy">From a quick exterior refresh to a deep interior clean, give your ride the attention it deserves.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#booking">Schedule your wash <span aria-hidden="true">→</span></a>
+            <a class="btn btn-outline" href="#services">Explore services</a>
+          </div>
+          <p class="hero-note">Easy booking · Careful cleaning · No-fuss service</p>
+        </div>
+        <div class="hero-visual" role="img" aria-label="Stylized car illustration on a dark background">
+          <div class="car-icon" aria-hidden="true">🚘</div>
+          <div class="visual-label">YOUR RIDE, REFRESHED<small>Clean finish. Fresh feeling.</small></div>
+        </div>
+      </div>
+    </section>
 
-    <!-- Load Supabase BEFORE using it -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <div class="trust-row">
+      <div class="container trust-grid">
+        <div class="trust-item"><span class="trust-icon" aria-hidden="true">✦</span><div><strong>Detail-minded</strong>Careful attention to the little things</div></div>
+        <div class="trust-item"><span class="trust-icon" aria-hidden="true">◷</span><div><strong>Simple booking</strong>Send a request in a few steps</div></div>
+        <div class="trust-item"><span class="trust-icon" aria-hidden="true">♡</span><div><strong>Made for your ride</strong>Choose the service you need</div></div>
+      </div>
+    </div>
 
-   
-<script>
-    document.getElementById("year").textContent =
-        new Date().getFullYear();
+    <section id="services">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Our services</span>
+          <h2>Pick your kind of clean.</h2>
+          <p>Choose a service below and send us a booking request. Prices shown are sample starting prices for this demo website.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-symbol" aria-hidden="true">💧</div>
+            <h3>Exterior Wash</h3>
+            <p>A refreshing exterior clean to lift away everyday dust and road grime.</p>
+            <div class="price">$20 <small>/ starting at</small></div>
+            <a class="text-link choose-service" href="#booking" data-service="Exterior Wash">Choose this service →</a>
+          </article>
+          <article class="service-card">
+            <div class="service-symbol" aria-hidden="true">✨</div>
+            <h3>Interior Refresh</h3>
+            <p>Vacuuming and a tidy-up for the spaces you touch and use every day.</p>
+            <div class="price">$45 <small>/ starting at</small></div>
+            <a class="text-link choose-service" href="#booking" data-service="Interior Refresh">Choose this service →</a>
+          </article>
+          <article class="service-card">
+            <div class="service-symbol" aria-hidden="true">🚘</div>
+            <h3>Full Detail</h3>
+            <p>A more complete inside-and-out clean for a satisfying refresh.</p>
+            <div class="price">$90 <small>/ starting at</small></div>
+            <a class="text-link choose-service" href="#booking" data-service="Full Detail">Choose this service →</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    const SUPABASE_URL =
-        "PASTE_YOUR_EXACT_PROJECT_URL_HERE";
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <div class="about-art" aria-hidden="true">🫧🚗</div>
+        <div class="about-copy">
+          <span class="kicker">Why ToyoHondu</span>
+          <h2>Little details make a big difference.</h2>
+          <p>We believe a car wash should feel simple: choose what your vehicle needs, request a time that works for you, and let the details do the talking.</p>
+          <ul class="feature-list">
+            <li>Clear service options</li>
+            <li>Easy online requests</li>
+            <li>Interior and exterior care</li>
+            <li>Booking confirmation to follow</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-    const SUPABASE_PUBLISHABLE_KEY =
-        "PASTE_YOUR_EXACT_PUBLISHABLE_KEY_HERE";
+    <section id="booking">
+      <div class="container">
+        <div class="booking-wrap">
+          <aside class="booking-aside">
+            <span class="kicker">Book an appointment</span>
+            <h2>Let's get your ride shining.</h2>
+            <p>Fill in the details and submit your request. Your booking will be saved as pending until it is confirmed by the business.</p>
+            <div class="contact-line"><strong>Good to know</strong><br>Choose your preferred date and time. Submitting a request does not guarantee an appointment until confirmed.</div>
+          </aside>
 
-    const db = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+          <div class="form-card">
+            <div id="bookingMessage" class="form-message" role="status" aria-live="polite"></div>
+            <form id="bookingForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="bookName">Full name *</label>
+                  <input id="bookName" name="customer_name" autocomplete="name" required maxlength="120" placeholder="Your name">
+                </div>
+                <div class="field">
+                  <label for="bookEmail">Email address *</label>
+                  <input id="bookEmail" name="customer_email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+                </div>
+                <div class="field">
+                  <label for="bookPhone">Phone number</label>
+                  <input id="bookPhone" name="customer_phone" type="tel" autocomplete="tel" maxlength="40" placeholder="Optional">
+                </div>
+                <div class="field">
+                  <label for="bookService">Service *</label>
+                  <select id="bookService" name="service" required>
+                    <option value="">Choose a service</option>
+                    <option value="Exterior Wash">Exterior Wash</option>
+                    <option value="Interior Refresh">Interior Refresh</option>
+                    <option value="Full Detail">Full Detail</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="bookMake">Vehicle make</label>
+                  <input id="bookMake" name="vehicle_make" maxlength="80" placeholder="e.g. Toyota">
+                </div>
+                <div class="field">
+                  <label for="bookModel">Vehicle model</label>
+                  <input id="bookModel" name="vehicle_model" maxlength="80" placeholder="e.g. Corolla">
+                </div>
+                <div class="field">
+                  <label for="bookDate">Preferred date *</label>
+                  <input id="bookDate" name="booking_date" type="date" required>
+                </div>
+                <div class="field">
+                  <label for="bookTime">Preferred time</label>
+                  <select id="bookTime" name="booking_time">
+                    <option value="">No preference</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="bookMessage">Anything else we should know?</label>
+                  <textarea id="bookMessage" name="message" maxlength="1000" placeholder="Optional notes about your vehicle or booking"></textarea>
+                </div>
+              </div>
+              <p class="form-help">* Required fields. Please don't include payment details or other sensitive information.</p>
+              <button class="btn btn-primary" id="bookingSubmit" type="submit">Send booking request <span aria-hidden="true">→</span></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    // BOOKING FORM
-    document.getElementById("bookingForm").addEventListener(
-        "submit",
-        async function (event) {
-            event.preventDefault();
+    <section id="faq" class="about">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Quick answers</span>
+          <h2>Before you book.</h2>
+        </div>
+        <div class="faq-grid">
+          <details><summary>Is my appointment confirmed right away?</summary><p>No. This form sends a booking request. Your appointment remains pending until the business confirms it.</p></details>
+          <details><summary>Can I choose a service later?</summary><p>Please choose the service that best fits your needs when submitting the form. You can mention extra details in the notes.</p></details>
+          <details><summary>Are these prices final?</summary><p>No. Prices are sample starting prices for this demo website and should be replaced with the business's actual prices before launch.</p></details>
+          <details><summary>What happens to my request?</summary><p>Your request is saved in the booking database so the business can review the details needed to arrange the appointment.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
 
-            const form = this;
-            const message =
-                document.getElementById("bookingMessage");
+  <footer>
+    <div class="container footer-inner">
+      <div><div class="logo">TOYO<span class="red">HONDU</span> CARWASH</div><p class="footer-tagline">Driven by care. Defined by shine.</p></div>
+      <p>Demo website · Sample services and prices</p>
+      <p>© <span id="year"></span> ToyoHondu Carwash</p>
+    </div>
+  </footer>
 
-            const booking = {
-                customer_name:
-                    document.getElementById("bookName").value.trim(),
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    "use strict";
 
-                customer_email:
-                    document.getElementById("bookEmail").value.trim(),
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-                service:
-                    document.getElementById("bookService").value,
+    // Publishable/anon client keys are designed for browser use.
+    // Never put a Supabase service_role or secret key in this file.
+    const SUPABASE_URL = "https://jmvlvplltrdtbleyxahy.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6P7wbcOOVkJ0JNam9HC-YA_wMKYcRpi";
+    const bookingForm = document.getElementById("bookingForm");
+    const bookingMessage = document.getElementById("bookingMessage");
+    const submitButton = document.getElementById("bookingSubmit");
+    const dateInput = document.getElementById("bookDate");
 
-                booking_date:
-                    document.getElementById("bookDate").value,
+    function localDateString(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    }
 
-                booking_time:
-                    document.getElementById("bookTime").value || null
-            };
+    dateInput.min = localDateString(new Date());
 
-            message.style.display = "block";
-            message.classList.remove("error");
-            message.textContent = "Submitting your booking...";
+    function showMessage(text, isError) {
+      bookingMessage.textContent = text;
+      bookingMessage.classList.toggle("error", Boolean(isError));
+      bookingMessage.style.display = "block";
+      bookingMessage.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
 
-            try {
-                const { error } = await db
-                    .from("bookings")
-                    .insert(booking);
+    // Service cards preselect their service in the booking form.
+    document.querySelectorAll(".choose-service").forEach(function (link) {
+      link.addEventListener("click", function () {
+        document.getElementById("bookService").value = link.dataset.service;
+      });
+    });
 
-                if (error) {
-                    console.error("Booking error:", error);
-                    message.classList.add("error");
-                    message.textContent =
-                        "Booking failed: " + error.message;
-                    return;
-                }
+    let db = null;
+    if (window.supabase && SUPABASE_URL.startsWith("https://") &&
+        SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")) {
+      db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    }
 
-                message.textContent =
-                    "Booking request submitted successfully! " +
-                    "Your appointment is pending confirmation.";
+    bookingForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      bookingMessage.style.display = "none";
 
-                form.reset();
+      if (!bookingForm.reportValidity()) return;
+      if (!db) {
+        showMessage("The booking service could not start. Please refresh the page and try again.", true);
+        return;
+      }
 
-            } catch (error) {
-                console.error("Connection error:", error);
-                message.classList.add("error");
-                message.textContent =
-                    "Connection error. Please try again later.";
-            }
+      const selectedDate = dateInput.value;
+      if (selectedDate < localDateString(new Date())) {
+        showMessage("Please choose today or a future date.", true);
+        dateInput.focus();
+        return;
+      }
+
+      const booking = {
+        customer_name: document.getElementById("bookName").value.trim(),
+        customer_email: document.getElementById("bookEmail").value.trim(),
+        customer_phone: document.getElementById("bookPhone").value.trim() || null,
+        vehicle_make: document.getElementById("bookMake").value.trim() || null,
+        vehicle_model: document.getElementById("bookModel").value.trim() || null,
+        service: document.getElementById("bookService").value,
+        booking_date: selectedDate,
+        booking_time: document.getElementById("bookTime").value || null,
+        message: document.getElementById("bookMessage").value.trim() || null
+      };
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending request…";
+
+      try {
+        const { error } = await db.from("bookings").insert([booking]);
+        if (error) {
+          console.error("Booking submission failed:", error);
+          if (error.code === "42501" || error.code === "PGRST301") {
+            showMessage("The booking database denied this request. Please contact the site administrator to check the bookings table permissions.", true);
+          } else if (error.code === "23514" || error.code === "23502" || error.code === "22P02") {
+            showMessage("Some booking details were not accepted. Please check the form and try again.", true);
+          } else {
+            showMessage("We couldn't submit your request right now. Please try again in a moment.", true);
+          }
+          return;
         }
-    );
-</script>
 
-
+        bookingForm.reset();
+        dateInput.min = localDateString(new Date());
+        showMessage("Your booking request was submitted! It is pending confirmation. Thank you for choosing ToyoHondu.", false);
+      } catch (error) {
+        console.error("Unexpected booking error:", error);
+        showMessage("A connection issue prevented the request from being sent. Check your internet connection and try again.", true);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Send booking request <span aria-hidden="true">→</span>';
+      }
+    });
+  </script>
 </body>
 </html>
-
