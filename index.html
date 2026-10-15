@@ -324,18 +324,15 @@
       });
     });
 
-    let db = null;
-    if (window.supabase && SUPABASE_URL.startsWith("https://") &&
-        SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")) {
-      db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    }
+    const BOOKING_FUNCTION_URL = SUPABASE_URL + "/functions/v1/booking-confirmation";
 
     bookingForm.addEventListener("submit", async function (event) {
       event.preventDefault();
       bookingMessage.style.display = "none";
 
       if (!bookingForm.reportValidity()) return;
-      if (!db) {
+      if (!SUPABASE_URL.startsWith("https://") ||
+          !SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")) {
         showMessage("The booking service could not start. Please refresh the page and try again.", true);
         return;
       }
@@ -363,22 +360,30 @@
       submitButton.textContent = "Sending request…";
 
       try {
-        const { error } = await db.from("bookings").insert([booking]);
-        if (error) {
-          console.error("Booking submission failed:", error);
-          if (error.code === "42501" || error.code === "PGRST301") {
-            showMessage("The booking database denied this request. Please contact the site administrator to check the bookings table permissions.", true);
-          } else if (error.code === "23514" || error.code === "23502" || error.code === "22P02") {
-            showMessage("Some booking details were not accepted. Please check the form and try again.", true);
-          } else {
-            showMessage("We couldn't submit your request right now. Please try again in a moment.", true);
-          }
+        const response = await fetch(BOOKING_FUNCTION_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_PUBLISHABLE_KEY,
+            "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
+          },
+          body: JSON.stringify(booking)
+        });
+        const result = await response.json().catch(function () { return {}; });
+
+        if (!response.ok || !result.booking_saved) {
+          console.error("Booking submission failed:", result);
+          showMessage(result.error || "We couldn't submit your request right now. Please try again in a moment.", true);
           return;
         }
 
         bookingForm.reset();
         dateInput.min = localDateString(new Date());
-        showMessage("Your booking request was submitted! It is pending confirmation. Thank you for choosing ToyoHondu.", false);
+        if (result.email_sent) {
+          showMessage("Booking request saved! A receipt was emailed to you. Reference: " + result.booking_reference + ". Your appointment is pending confirmation.", false);
+        } else {
+          showMessage("Your booking request was saved, but the confirmation email could not be sent. Please contact ToyoHondu and quote reference: " + result.booking_reference + ".", true);
+        }
       } catch (error) {
         console.error("Unexpected booking error:", error);
         showMessage("A connection issue prevented the request from being sent. Check your internet connection and try again.", true);
